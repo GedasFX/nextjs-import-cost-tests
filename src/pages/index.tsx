@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import { useMemo } from 'react';
+import * as fs from 'fs';
 
 type Props = { data: typeof import('data/i.json') };
 
@@ -17,6 +18,8 @@ export default function Home({ data }: Props) {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const df = JSON.parse(JSON.stringify(await import('data/i.json')));
+  // const fs = await import('fs');
+  const df = JSON.parse(fs.readFileSync('data/i.json', 'utf-8'));
+
   return { props: { data: df } };
 };
