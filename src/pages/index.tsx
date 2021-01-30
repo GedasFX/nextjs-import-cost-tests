@@ -1,6 +1,5 @@
 import { GetStaticProps } from 'next';
 import { useMemo } from 'react';
-import df from 'data/i.json';
 
 type Props = { data: typeof import('data/i.json') };
 
@@ -18,5 +17,5 @@ export default function Home({ data }: Props) {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  return { props: { data: df } };
+  return { props: { data: {} } as Props };
 };
