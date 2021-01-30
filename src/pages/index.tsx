@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { GetStaticProps } from 'next';
+import type { GetServerSideProps } from 'next';
 
 type Props = {
   jobs: typeof import('data/jobs.json')['data']['jobs'];
@@ -13,7 +13,7 @@ export default function Home({ jobs }: Props) {
   return dataString;
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const fs = await import('fs');
   const data: typeof import('data/jobs.json') = JSON.parse(
     fs.readFileSync('data/jobs.json', 'utf-8')
