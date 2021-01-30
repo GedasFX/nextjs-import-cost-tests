@@ -1,25 +1,21 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { useMemo } from 'react';
-// import * as fs from 'fs';
+import * as fs from 'fs';
 
-type Props = { data: typeof import('data/i.json') };
+type Props = { jobs: typeof import('data/jobs.json')['data']['jobs'] };
 
-export default function Home({ data }: Props) {
+export default function Home({ jobs }: Props) {
   const dataString = useMemo(() => {
-    return JSON.stringify(data);
-  }, [data]);
+    return JSON.stringify(jobs);
+  }, [jobs]);
 
-  return (
-    <>
-      <span>Hello World!</span>
-      {dataString}
-    </>
-  );
+  return dataString;
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const fs = await import('fs');
-  const df = JSON.parse(fs.readFileSync('data/i.json', 'utf-8'));
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  const df: typeof import('data/jobs.json') = JSON.parse(
+    fs.readFileSync('data/jobs.json', 'utf-8')
+  );
 
-  return { props: { data: df } };
+  return { props: { jobs: df.data.jobs } };
 };
