@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import data from 'data/jobs.json';
+import * as fs from 'fs';
 import type { GetStaticProps } from 'next';
 
 type Props = {
@@ -8,14 +8,15 @@ type Props = {
 
 export default function Home({ jobs }: Props) {
   const dataString = useMemo(() => {
-    if (JSON.stringify(data.data.jobs) === JSON.stringify(jobs)) {
-      return JSON.stringify(jobs);
-    }
+    return JSON.stringify(jobs);
   }, [jobs]);
 
   return dataString;
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
+  const data: typeof import('data/jobs.json') = JSON.parse(
+    fs.readFileSync('data/jobs.json', 'utf-8')
+  );
   return { props: { jobs: data.data.jobs } };
 };
