@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-
-import type { GetStaticProps } from 'next';
+import { ApolloClient, createHttpLink, InMemoryCache, gql } from '@apollo/client';
+import type { GetServerSideProps } from 'next';
 
 type Props = {
   jobs: typeof import('data/jobs.json')['data']['jobs'];
@@ -14,8 +14,7 @@ export default function Home({ jobs }: Props) {
   return dataString;
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const { ApolloClient, createHttpLink, InMemoryCache, gql } = await import('@apollo/client');
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const client = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
