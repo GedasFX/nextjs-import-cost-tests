@@ -1,13 +1,12 @@
-// import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { useMemo } from 'react';
-import df from 'data/i.json';
 
-// type Props = { data: typeof import('data/i.json') };
+type Props = { data: typeof import('data/i.json') };
 
-export default function Home() {
+export default function Home({ data }: Props) {
   const dataString = useMemo(() => {
-    return JSON.stringify(df);
-  }, []);
+    return JSON.stringify(data);
+  }, [data]);
 
   return (
     <>
@@ -17,6 +16,7 @@ export default function Home() {
   );
 }
 
-// export const getServerSideProps: GetServerSideProps<Props> = async () => {
-//   return { props: { data: df } };
-// };
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const df = JSON.parse(JSON.stringify(await import('data/i.json')));
+  return { props: { data: df } };
+};
