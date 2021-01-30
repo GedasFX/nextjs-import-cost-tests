@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import * as fs from 'fs';
 import type { GetServerSideProps } from 'next';
 
 type Props = {
@@ -14,7 +15,6 @@ export default function Home({ jobs }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const fs = await import('fs');
   const data: typeof import('data/jobs.json') = JSON.parse(
     fs.readFileSync('data/jobs.json', 'utf-8')
   );
